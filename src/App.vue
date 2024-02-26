@@ -2,25 +2,40 @@
 export default {
   data() {
     return {
-      City: ""
+      City: "",
+      Error: ""
     };
+  },
+  methods: {
+    getWeather() {
+      if(this.City.trim().length < 2) {
+        this.Error = "Enter a name containing more than 2 characters";
+        return false;
+      }
+      else this.Error = "";
+    }
   }
 }
 </script>
 
+getWeather() {
+if (this.City.trim().length < 2) {
+Error = "Enter a name containing more than 2 characters";
+return false;
+}
+else Error = "";
+}
 <template lang="pug">
   section.main
     .wrapper
       .wrapper-grid
-        span
-          h1 Weather Today
-          h2(v-if="City === ''") Weather on Your City
-          h2(v-else) Weather on {{ City }}
+        h1 Weather Today
+        h2 Weather on {{City === "" ? "Your City" : City}}
         .wrapper-input-row
           label.wrapper-label City
-          input.wrapper-input(type="text" v-model="City" placeholder="Your City")
-        button.wrapper-button(type="submit") Submit
-
+          input.wrapper-input(type="text" v-model="City" placeholder="  Your City" maxlength="20")
+        button.wrapper-button(v-show="City !== ''" @click="getWeather()" type="submit") Submit
+        p.error-message(v-show="Error !== ''") {{Error}}
 </template>
 
 <style scoped lang="scss">
@@ -37,14 +52,14 @@ export default {
   height: 50vh;
   width: 60%;
   border: white solid 5px;
-  border-radius: 20px;
+  border-radius: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
   h1 {
-    color: #e8dcdf;
+    color: white;
     font-size: 40px;
   }
 
@@ -57,7 +72,7 @@ export default {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-gap: 3vh;
+    grid-gap: 1vh;
     justify-items: center;
     align-items: center;
   }
@@ -82,6 +97,8 @@ export default {
   .wrapper-input {
     height: 5vh;
     width: 60%;
+    border: white solid 2px;
+    border-radius: 30px;
   }
 
   .wrapper-button {
@@ -92,6 +109,11 @@ export default {
     background-color: #282828;
     border: white solid 2px;
     border-radius: 10px;
+  }
+
+  .error-message {
+    color: white;
+    font-style: italic;
   }
 }
 </style>
