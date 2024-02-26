@@ -1,0 +1,13 @@
+* {
+  font-family: "DIN Pro", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(164deg, rgb(2, 0, 36) 0%, rgb(7, 42, 186) 21%, rgb(0, 212, 255) 100%);
+}
+
+/*# sourceMappingURL=main.css.map */
