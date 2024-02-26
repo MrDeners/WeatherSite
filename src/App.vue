@@ -1,9 +1,12 @@
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       City: "",
-      Error: ""
+      Error: "",
+      info: null,
     };
   },
   methods: {
@@ -13,18 +16,14 @@ export default {
         return false;
       }
       else this.Error = "";
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.City}&units=metric&appid=f664fb1704642622e40b085300ab62eb`)
+          .then(result => this.info = result);
+      console.log(this.info)
     }
   }
 }
 </script>
 
-getWeather() {
-if (this.City.trim().length < 2) {
-Error = "Enter a name containing more than 2 characters";
-return false;
-}
-else Error = "";
-}
 <template lang="pug">
   section.main
     .wrapper
@@ -36,6 +35,8 @@ else Error = "";
           input.wrapper-input(type="text" v-model="City" placeholder="  Your City" maxlength="20")
         button.wrapper-button(v-show="City !== ''" @click="getWeather()" type="submit") Submit
         p.error-message(v-show="Error !== ''") {{Error}}
+        .weather(v-show="info !== null")
+          //p Temperature {{info.main}}
 </template>
 
 <style scoped lang="scss">
@@ -99,6 +100,12 @@ else Error = "";
     width: 60%;
     border: white solid 2px;
     border-radius: 30px;
+
+    transition: transform 0.1s ease-in-out;
+
+    &:focus {
+      transform: scale(1.1);
+    }
   }
 
   .wrapper-button {
@@ -109,6 +116,17 @@ else Error = "";
     background-color: #282828;
     border: white solid 2px;
     border-radius: 10px;
+    transition: transform, bacground-color 0.2s, 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(1.13);
+      background-color: #420a17;
+      border: black;
+    }
   }
 
   .error-message {
