@@ -17,7 +17,7 @@ export default {
       }
       else this.Error = "";
       axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.City}&units=metric&appid=f664fb1704642622e40b085300ab62eb`)
-          .then(result => this.info = result);
+          .then(result => this.info = result.data.main);
       console.log(this.info)
     }
   }
@@ -36,7 +36,10 @@ export default {
         button.wrapper-button(v-show="City !== ''" @click="getWeather()" type="submit") Submit
         p.error-message(v-show="Error !== ''") {{Error}}
         .weather(v-show="info !== null")
-          //p Temperature {{info.main}}
+          p(v-show="info !== null") • Temperature - {{info.temp}} °C
+          p(v-show="info !== null") • Max Temperature - {{info.temp_max}} °C
+          p(v-show="info !== null") • Min Temperature - {{info.temp_min}} °C
+          p(v-show="info !== null") • Humidity - {{info.humidity}}%
 </template>
 
 <style scoped lang="scss">
@@ -132,6 +135,11 @@ export default {
   .error-message {
     color: white;
     font-style: italic;
+  }
+
+  .weather {
+    color: white;
+    font-size: 20px;
   }
 }
 </style>
